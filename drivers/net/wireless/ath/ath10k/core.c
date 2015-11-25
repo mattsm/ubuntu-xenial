@@ -1882,6 +1882,8 @@ static int ath10k_core_probe_fw(struct ath10k *ar)
 		goto err_power_down;
 	}
 
+	ath10k_debug_print_hwfw_info(ar);
+
 	ret = ath10k_core_get_board_id_from_otp(ar);
 	if (ret && ret != -EOPNOTSUPP) {
 		ath10k_err(ar, "failed to get board id from otp for qca99x0: %d\n",
@@ -1898,6 +1900,8 @@ static int ath10k_core_probe_fw(struct ath10k *ar)
 		ath10k_err(ar, "failed to fetch board file: %d\n", ret);
 		goto err_free_firmware_files;
 	}
+
+	ath10k_debug_print_board_info(ar);
 
 	ret = ath10k_core_init_firmware_features(ar);
 	if (ret) {
@@ -1921,7 +1925,7 @@ static int ath10k_core_probe_fw(struct ath10k *ar)
 		goto err_unlock;
 	}
 
-	ath10k_print_driver_info(ar);
+	ath10k_debug_print_boot_info(ar);
 	ath10k_core_stop(ar);
 
 	mutex_unlock(&ar->conf_mutex);
